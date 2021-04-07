@@ -95,4 +95,46 @@ public class SimpleCalculatorImplTest {
   //  - with 2 calculators, give them different inputs, then save state on first calculator and load the state into second calculator, make sure state loaded well
   //  etc etc.
   //  feel free to be creative in your tests!
+  @Test
+  public void when_MoreThanOneInputGiven_then_outputShouldBeCorrect(){
+    SimpleCalculatorImpl calculatorUnderTest = new SimpleCalculatorImpl();
+    // give some digits inputs
+    calculatorUnderTest.insertDigit(1);
+    calculatorUnderTest.insertDigit(2);
+    // give one action
+    calculatorUnderTest.insertPlus();
+
+    assertEquals("12+", calculatorUnderTest.output());
+  }
+  @Test
+  public void when_MoreThanOneActionGiven_then_outputShouldBeCorrect(){
+    SimpleCalculatorImpl calculatorUnderTest = new SimpleCalculatorImpl();
+    // give some digits inputs
+    calculatorUnderTest.insertDigit(1);
+    calculatorUnderTest.insertDigit(2);
+    // give one action
+    calculatorUnderTest.insertPlus();
+    calculatorUnderTest.insertPlus();
+
+    assertEquals("12+", calculatorUnderTest.output());
+  }
+  @Test
+  public void when_EqualWithNoInput_than_outputShouldBe0(){
+    SimpleCalculatorImpl calculatorUnderTest = new SimpleCalculatorImpl();
+    calculatorUnderTest.insertEquals();
+    assertEquals("0",calculatorUnderTest.output());
+  }
+  @Test
+  public void when_EqualWithComplicatedInput_than_outputShouldBeCorrect(){
+    SimpleCalculatorImpl calculatorUnderTest = new SimpleCalculatorImpl();
+    // insert digits and actions
+    calculatorUnderTest.insertDigit(4);
+    calculatorUnderTest.insertPlus();
+    calculatorUnderTest.insertDigit(9);
+    calculatorUnderTest.insertDigit(0);
+    calculatorUnderTest.insertMinus();
+    calculatorUnderTest.insertDigit(5);
+    calculatorUnderTest.insertEquals();
+    assertEquals("89",calculatorUnderTest.output());
+  }
 }

@@ -41,7 +41,7 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
             calculation.add("0");
             elementsCounter++;
         }
-        if ((calculation.get(elementsCounter).equals("+")) && (calculation.get(elementsCounter).equals("-"))) {
+        if ((calculation.get(elementsCounter).equals("+")) || (calculation.get(elementsCounter).equals("-"))) {
             // ignore
         } else {
             calculation.add("+");
@@ -56,7 +56,7 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
             calculation.add("0");
             elementsCounter++;
         }
-        if ((calculation.get(elementsCounter).equals("+")) && (calculation.get(elementsCounter).equals("-"))) {
+        if ((calculation.get(elementsCounter).equals("+")) || (calculation.get(elementsCounter).equals("-"))) {
             // ignore
         } else {
             calculation.add("-");
@@ -68,41 +68,39 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
     public void insertEquals() {
         // todo: calculate the equation. after calling `insertEquals()`, the output should be the result
         //  e.g. given input "14+3", calling `insertEquals()`, and calling `output()`, output should be "17"
-        if ((calculation.get(elementsCounter).equals("+")) || (calculation.get(elementsCounter).equals("-"))) {
-            calculation.remove(elementsCounter);
-            elementsCounter--;
-        }
-        String newAction = "";
-        String prevAction = "+";
-        String temp = "";
-        int counter = 0;
-        int res = 0;
-        while (counter <= elementsCounter) {
-            if ((!calculation.get(elementsCounter).equals("+")) && (!calculation.get(elementsCounter).equals("-"))) {
-                temp += calculation.get(counter);
-                counter++;
+        if (!calculation.isEmpty()) {
+            if ((calculation.get(elementsCounter).equals("+")) || (calculation.get(elementsCounter).equals("-"))) {
+                calculation.remove(elementsCounter);
+                elementsCounter--;
             }
-            else {
-                if (prevAction.equals("+")){
-                    res += Integer.parseInt(temp);
+            String prevAction = "+";
+            String temp = "";
+            int counter = 0;
+            int res = 0;
+            while (counter <= elementsCounter) {
+                if ((!calculation.get(counter).equals("+")) && (!calculation.get(counter).equals("-"))) {
+                    temp += calculation.get(counter);
+                    counter++;
+                } else {
+                    if (prevAction.equals("+")) {
+                        res += Integer.parseInt(temp);
+                    } else {
+                        res -= Integer.parseInt(temp);
+                    }
+                    prevAction = calculation.get(counter);
+                    temp = "";
+                    counter++;
                 }
-                else{
-                    res -= Integer.parseInt(temp);
-                }
-                prevAction = newAction;
-                temp = "";
-                counter++;
             }
-        }
-        if (prevAction.equals("+")){
-            res += Integer.parseInt(temp);
-        }
-        else{
-            res -= Integer.parseInt(temp);
-        }
-        calculation.clear();
-        calculation.add(String.valueOf(res));
+            if (prevAction.equals("+")) {
+                res += Integer.parseInt(temp);
+            } else {
+                res -= Integer.parseInt(temp);
+            }
+            calculation.clear();
+            calculation.add(String.valueOf(res));
 
+        }
     }
 
     @Override
