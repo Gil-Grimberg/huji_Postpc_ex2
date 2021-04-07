@@ -113,6 +113,7 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
         if (!calculation.isEmpty())
         {
             calculation.remove(elementsCounter);
+            elementsCounter--;
         }
     }
 
