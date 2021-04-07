@@ -99,7 +99,7 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
             }
             calculation.clear();
             calculation.add(String.valueOf(res));
-
+            elementsCounter = 0;
         }
     }
 
@@ -110,17 +110,25 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
         //  if input was "12+3" and called `deleteLast()`, then delete the "3"
         //  if input was "12+" and called `deleteLast()`, then delete the "+"
         //  if no input was given, then there is nothing to do here
+        if (!calculation.isEmpty())
+        {
+            calculation.remove(elementsCounter);
+        }
     }
 
     @Override
     public void clear() {
         // todo: clear everything (same as no-input was never given)
+        calculation.clear();
+        elementsCounter = -1;
     }
 
     @Override
     public Serializable saveState() {
         CalculatorState state = new CalculatorState();
         // todo: insert all data to the state, so in the future we can load from this state
+        state.setCalculation(calculation);
+        state.setElementsCounter(elementsCounter);
         return state;
     }
 
@@ -131,6 +139,8 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
         }
         CalculatorState casted = (CalculatorState) prevState;
         // todo: use the CalculatorState to load
+        calculation = casted.getCalculation();
+        elementsCounter = casted.getElementsCounter();
     }
 
     private static class CalculatorState implements Serializable {
@@ -142,5 +152,42 @@ public class SimpleCalculatorImpl implements SimpleCalculator {
     - ArrayList<> where the type is a primitive or a String
     - HashMap<> where the types are primitives or a String
      */
+        List<String> copyOfCalculation = new ArrayList<>();
+        int copyOfElementsCounter = -1;
+
+        /**
+         * deep copying the old calculation to a new list
+         * @param oldCalculation
+         */
+        public void setCalculation(List<String> oldCalculation){
+            copyOfCalculation.addAll(oldCalculation);
+        }
+
+        /**
+         * copy the old elements counter to a new one
+         * @param oldCounter
+         */
+        public void setElementsCounter(int oldCounter)
+        {
+            copyOfElementsCounter = oldCounter;
+        }
+
+        /**
+         * getter for calculation list
+         * @return calculation list
+         */
+        public List<String> getCalculation()
+        {
+            return copyOfCalculation;
+        }
+
+        /**
+         * getter for the elements counter
+         * @return elements counter
+         */
+        public int getElementsCounter()
+        {
+            return copyOfElementsCounter;
+        }
     }
 }
