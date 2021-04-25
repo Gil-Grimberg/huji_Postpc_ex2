@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
 
 //    initiate text view output
     textViewCalculatorOutput.setText("~~~ ready to start ~~~");
+//
 
     plusButton.setOnClickListener(v -> {
       calculator.insertPlus();
